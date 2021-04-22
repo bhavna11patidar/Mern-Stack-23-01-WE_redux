@@ -6,6 +6,20 @@ const initialState={
 }
 export default function(state=initialState, action){
     switch(action.type){
+        case "ON_LOGIN_SUCCESS":
+            return {
+                ...state,
+                isAuthenticated:true,
+                user:action.payload,
+                success:true,
+            }
+        case "ON_LOGIN_FAILURE":
+            return{
+                ...state,
+                user:{},
+                isAuthenticated:false,
+                error: action.payload,
+            }
         default:
             return state;
     }
