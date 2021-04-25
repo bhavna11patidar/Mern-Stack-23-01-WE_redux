@@ -33,6 +33,26 @@ export default function(state=initialState,action){
                 ...state,
                 error:action.payload,
             }
+        case "DELETE_SUCCESS":
+            return{
+                ...state,
+                success:action.payload,
+            }
+        case "DELETE_FAILURE":
+            return{
+                ...state,
+                error:action.payload,
+            }
+        case "UPDATE_SUCCESS":
+            return{
+                ...state,
+                success:action.payload,
+            }
+        case "UPDATE_FAILURE":
+            return{
+                ...state,
+                error:action.payload,
+            }
         default:
             return state;
     }

@@ -33,6 +33,59 @@ export const onFetchCategories=()=>{
     }
 }
 
+export const onDeleteCategories=(id)=>{
+    return (dispatch)=>{
+      return axios.get('http://localhost:5000/deleteCategory/'+id)
+        .then(res=>{
+            if(res.status==200){
+                dispatch(onDeleteSuccess(res.data.msg));
+                console.log("Success");
+                return true;
+            }else{
+                dispatch(onDeleteFailure(res.data.msg));
+                console.log("Failure");
+                return false;
+            }
+        }).catch(err=>{
+            console.log(err);
+            console.log("Failure");
+            return false;
+        })
+    }
+}
+export const fetchSingleCategory=(id)=>{
+    return (dispatch)=>{
+        return axios.get('http://localhost:5000/editCategory/'+id)
+        .then(res=>{
+            if(res.status==200){
+                return res.data;
+            }else{
+                return false;
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+            return false;
+        })
+    }
+}
+export const onUpdateCategory=(data, history)=>{
+    return (dispatch)=>{
+        axios.post('http://localhost:5000/updateCategory', data)
+        .then(res=>{
+            if(res.status==200){
+                dispatch(onUpdateSuccess(res.data.msg));
+                history.push('/view-category');
+            }else{
+                dispatch(onUpdateFailure(res.data.msg));
+                history.push('/view-category');
+            }
+        })
+        .catch(err=>{
+            dispatch(onUpdateFailure());
+        })
+    }
+}
 export const onAddSuccess=(msg)=>{
     return{
         type:"ADD_SUCCESS",
@@ -61,6 +114,31 @@ export const onFetchSuccess=(data)=>{
 export const onFetchFailure=(msg)=>{
     return{
         type:"FETCH_FAILURE",
+        payload:msg,
+    }
+}
+export const onDeleteSuccess=(msg)=>{
+    return {
+        type:"DELETE_SUCCESS",
+        payload:msg,
+    }
+}
+
+export const onDeleteFailure=(msg)=>{
+    return {
+        type:"DELETE_FAILURE",
+        payload:msg,
+    }
+}
+export const onUpdateSuccess=(msg)=>{
+    return{
+        type:"UPDATE_SUCCESS",
+        payload:msg,
+    }
+}
+export const onUpdateFailure=(msg)=>{
+    return{
+        type:"UPDATE_FAILURE",
         payload:msg,
     }
 }

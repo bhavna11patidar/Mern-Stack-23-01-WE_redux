@@ -9,6 +9,7 @@ import Store from './Store';
 import Header from './Components/Scripts/dashboard/Header';
 import AddCategory from './Components/Scripts/dashboard/category/AddCategory';
 import ViewCategory from './Components/Scripts/dashboard/category/ViewCategory';
+import EditCategory from './Components/Scripts/dashboard/category/EditCategory';
 function App() {
   return (
     <Provider store={Store}>
@@ -19,6 +20,7 @@ function App() {
         <Route exact path="/dashboard" component={Dashboard}/>
         <Route exact path="/add-category" component={AddCategory}/>
         <Route exact path="/view-category" component={ViewCategory}/>
+        <Route exact path="/edit-category/:id" component={EditCategory}/>
       </Router>
     </Provider>
   );
