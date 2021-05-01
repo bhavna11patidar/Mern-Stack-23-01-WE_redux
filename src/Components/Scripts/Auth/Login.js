@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {onLogin} from './../../Redux/auth/AuthAction';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 class Login extends Component {
     constructor(){
@@ -40,6 +40,7 @@ class Login extends Component {
                         </div>
                         <div className="text-center">
                             <button onClick={this.onSubmit} className="btn btn-primary">Login</button>
+                            <p>Not a Registered User <Link to="/">Click Here</Link> To Register First</p>
                         </div>
                 </div>
             </div>

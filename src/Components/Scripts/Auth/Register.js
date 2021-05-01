@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {onRegister} from './../../Redux/auth/AuthAction';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 class Register  extends Component {
     constructor(){
         super();
@@ -24,8 +24,8 @@ class Register  extends Component {
     render() {
         const {name, email, password,gender} =this.state
         return (
-            <div className="container">
-                <div className="row">
+            <div className="container  mt-5">
+                <div className="row justify-content-center">
                     <div className="col-md-8 card p-5">
                             <h1 className="text text-center">Admin Registration</h1>
                             <div className="form-group">
@@ -47,7 +47,9 @@ class Register  extends Component {
                             </div>
                             <div className="text-center">
                                 <button onClick={this.onSubmit} className="btn btn-primary">Register</button>
+                                <p>Already Registered User <Link to="/login">Click Here</Link> To Login</p>
                             </div>
+                           
                     </div>
                 </div>
             </div>
