@@ -9,8 +9,11 @@ import {
   } from 'reactstrap';
 
 import {Link} from 'react-router-dom'; 
+import {onLogout} from './../../Redux/auth/AuthAction';
 
-export default class Header extends Component {
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+class Header extends Component {
     constructor(props){
         super();
         this.state={
@@ -19,6 +22,9 @@ export default class Header extends Component {
     }
     toggle=()=>{
         this.setState({isOpen:!this.state.isOpen});
+    }
+    logoutUser=()=>{
+        this.props.onLogout(this.props.history)
     }
     render() {
         const {isOpen}= this.state;
@@ -44,7 +50,9 @@ export default class Header extends Component {
                   <NavItem>
                     <Link className="nav-link" to="/view-product/">View Product</Link>
                   </NavItem>
-                 
+                  <NavItem>
+                    <button className="btn btn-info" onClick={this.logoutUser} >Logout</button>
+                  </NavItem>
                 </Nav>
               </Collapse>
             </Navbar>
@@ -52,3 +60,5 @@ export default class Header extends Component {
         )
     }
 }
+
+export default connect(null, {onLogout})(withRouter(Header));

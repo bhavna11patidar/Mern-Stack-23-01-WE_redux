@@ -1,42 +1,50 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
+
 import {onFetchCategories} from './../../../Redux/category/CategoryAction';
-import {onAddProduct} from './../../../Redux/product/ProductAction'
+import {fetchSingleProduct, onUpdateProduct} from './../../../Redux/product/ProductAction';
 import { Spinner } from 'reactstrap';
-class AddProduct extends Component {
+class EditProduct extends Component {
     constructor(props){
+        //console.log("Edit Cat");
         super(props);
-        this.state={
-            name:"",
-            price:"",
-            categoryId:"",
-            description:"",
-            image:"",
-            quantity:"",
-        }
+        const id=this.props.match.params.id;
+       // console.log(id);
+       this.state={
+        id:id,
+        name:"",
+        price:"",
+        categoryId:"",
+        description:"",
+        image:"",
+        quantity:"",
+        old_img:"",
+       }
+        this.getSingleProduct(id);
+
     }
-    componentWillMount(){
+    componentDidMount(){
         this.props.onFetchCategories();
+    }
+
+    getSingleProduct=async(id)=>{
+        const res=await this.props.fetchSingleProduct(id);
+       console.log(res);
+       this.setState({name:res.name, categoryId:res.categoryId, price:res.price, description:res.description, quantity:res.quantity, old_img:res.image});
     }
     onHandleChange=(e)=>{
         this.setState({[e.target.name]:e.target.value});
     }
-    onFileChange=(e)=>{
-        this.setState({image:e.target.files[0]});
-    }
     onSubmit=()=>{
-        let {name, price, image, categoryId, quantity, description}=this.state;
+        let {name, price, image, categoryId, quantity, description, id, old_img}=this.state;
         const obj={
-            name,price,image,categoryId,quantity,description,
+            name,price,image,categoryId,quantity,description,id, old_img
         }
-        this.props.onAddProduct(obj);
-        this.setState({name:"", price:"", image:"", description:"", quantity:"",categoryId:""});
-
-    }   
+        this.props.onUpdateProduct(obj, this.props.history);
+    }
     render() {
-        const {name, price, categoryId, description, image, quantity}=this.state;
-        //console.log(this.props);
+        const {name, price, categoryId, description, image, quantity, id, old_img}=this.state;
         const {categories}=this.props;
         const {success, error}=this.props.products;
         //console.log(categories);
@@ -51,7 +59,7 @@ class AddProduct extends Component {
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-md-6 card p-5">
-                    <h1 className="text-center text-info">Add Product</h1>
+                    <h1 className="text-center text-info">Edit Product</h1>
                     {success?<p className="text-success">{success}</p>:""}
                     {error?<p className="text-danger">{error}</p>:""}
                     
@@ -61,7 +69,7 @@ class AddProduct extends Component {
                     </div>
                     <div className="form-group">
                         <label>Category</label>
-                        <select name="categoryId" value="" onChange={this.onHandleChange} className="form-control"> 
+                        <select value={categoryId} name="categoryId" onChange={this.onHandleChange} className="form-control"> 
                             <option>--select Category--</option>
                             {categories.categories.map((cat, index)=>(
                                 <option key={index} value={cat._id}>{cat.categoryName}</option>
@@ -85,19 +93,20 @@ class AddProduct extends Component {
                         <textarea rows="5"  name="description" value={description} className="form-control" onChange={this.onHandleChange} />
                     </div>
                     <div className="text-center">
-                        <button className="btn btn-info" onClick={this.onSubmit}>Add Product</button>
+                        <input type="hidden" name="id" value={id}/>
+                        <input type="hidden" name="old_img" value={old_img}/>
+                        <button className="btn btn-info" onClick={this.onSubmit}>Update Product</button>
                     </div>
                 </div>
                 </div>
             </div>
         )
-        }
+ 
     }
 }
-
+}
 const mapStateToProps=state=>({
     categories:state.categories,
     products:state.products,
 })
-
-export default connect(mapStateToProps, {onFetchCategories, onAddProduct})(withRouter(AddProduct));
+export default connect(mapStateToProps,{fetchSingleProduct, onUpdateProduct, onFetchCategories})(withRouter(EditProduct));

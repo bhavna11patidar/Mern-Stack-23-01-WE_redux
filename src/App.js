@@ -17,6 +17,7 @@ import store from './Store';
 import { onLoginSuccess } from './Components/Redux/auth/AuthAction';
 import AddProduct from './Components/Scripts/dashboard/product/AddProduct';
 import ViewProduct from './Components/Scripts/dashboard/product/ViewProduct';
+import EditProduct from './Components/Scripts/dashboard/product/EditProduct';
 function App() {
   const token=localStorage.getItem('user');
   if(token){
@@ -38,6 +39,8 @@ function App() {
             <PrivateRoute exact path="/edit-category/:id" component={EditCategory}/>
             <PrivateRoute exact path="/add-product" component={AddProduct}/>
             <PrivateRoute exact path="/view-product" component={ViewProduct}/>
+            
+            <PrivateRoute exact path="/edit-product/:id" component={EditProduct}/>
           </Switch>
       </div>
     )

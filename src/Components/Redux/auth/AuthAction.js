@@ -41,6 +41,15 @@ export const onLogin=(newUser, history)=>{
     }
 }
 
+
+export const onLogout=(history)=>{
+    return (dispatch)=>{
+        setAuthToken();
+        localStorage.removeItem('user');
+        dispatch(onLogoutSuccess);
+        history.push('/login');
+    }
+}
 export const onLoginSuccess=(user)=>{
     return {
         type:"ON_LOGIN_SUCCESS",
@@ -51,5 +60,11 @@ export const onLoginFailure=(msg)=>{
     return {
         type:"ON_LOGIN_FAILURE",
         payload:msg,
+    }
+}
+
+export const onLogoutSuccess=()=>{
+    return{
+        type:"ON_LOGOUT_SUCCESS"
     }
 }

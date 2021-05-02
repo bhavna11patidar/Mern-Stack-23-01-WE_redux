@@ -20,6 +20,12 @@ export default function(state=initialState, action){
                 isAuthenticated:false,
                 error: action.payload,
             }
+        case "ON_LOGOUT_SUCCESS":
+            return {
+                ...state,
+                user:{},
+                isAuthenticated:false,
+            }
         default:
             return state;
     }
